@@ -1,0 +1,42 @@
+import numpy as np 
+import pandas as pd 
+import joblib
+import matplotlib.pyplot as plt
+from matplotlib.ticker import StrMethodFormatter
+import streamlit as st
+from PIL import Image
+
+# Load  model a 
+model = joblib.load(open("sentiment_model.joblib","rb"))
+
+st.write("""
+# Wine Quality Prediction ML Web-App 
+This app predicts the ** Sentiments **  using **user review** input via the **side panel** 
+""")
+
+st.sidebar.header('User Input Parameters')
+
+def get_user_input():
+    """
+    this function is used to get user input using sidebar slider and selectbox 
+    return type : pandas dataframe
+
+    """
+    review = st.sidebar.text_input("Enter review")
+    
+    
+    st.write("You entered:", user_input)
+
+    features = {'wine_type': wine_type }
+
+    data = pd.DataFrame(features,index=[0])
+
+    return data
+
+user_input_df = get_user_input()
+st.subheader('User Input parameters')
+st.write(user_input_df)
+
+prediction = model.predict(user_input_df)
+
+st.write(prediction)
